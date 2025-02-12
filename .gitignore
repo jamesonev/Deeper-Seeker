@@ -119,3 +119,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Optional directory to save the results of research
+/outputs

@@ -1,5 +1,6 @@
 
 
+import argparse
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import os
@@ -172,14 +173,37 @@ def display_banner():
     banner = pyfiglet.figlet_format("Deeper Seeker v1")
     print(Fore.CYAN + banner + Style.RESET_ALL)
 
-if __name__ == "__main__":
-    display_banner()
-
-    agent = ResearchAgent()
-    user_input = input("Enter your research query: ")
-    final_report = agent.execute_research_plan(user_input)
-    
+def display_results(agent, final_report, output_file):
+    if output_file:
+        # Ensure the 'outputs' directory exists
+        os.makedirs('outputs', exist_ok=True)
+        # Construct the full path, ensuring the file is a markdown file
+        output_file = os.path.join('outputs', f"{output_file}.md" if not output_file.endswith('.md') else output_file)
+        try:
+            with open(output_file, 'w') as f:
+                f.write(final_report)
+            print(f"Final report written to {output_file}")
+        except IOError as e:
+            print(f"{Fore.RED}An error occurred while writing to {output_file}: {e}{Style.RESET_ALL}")
+            print("You can still copy the report provided below.")
     print(f"\n{Fore.GREEN}=== FINAL REPORT ==={Style.RESET_ALL}")
     print(final_report)
     print(f"\n{Fore.CYAN}=== RESEARCH CONTEXT ==={Style.RESET_ALL}")
     print(json.dumps(agent.context, indent=2))
+
+def main(mock=False):
+    display_banner()
+    agent = ResearchAgent()
+    user_input = input("Enter your research query: ")
+    output_file = input("What file should we save this report? Hit 'Enter' to skip ")
+    final_report = agent.execute_research_plan(user_input) if not mock else "Here is your output"
+    display_results(agent, final_report, output_file)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    # Add an optional "mock" argument to let devs iterate faster and w/o paying for api calls
+    parser.add_argument("--mock", action="store_true", help="Skip actual API calls")
+    args = parser.parse_args()
+    # Call the main function with the optional argument
+    main(args.mock)
+    

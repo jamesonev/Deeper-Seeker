@@ -56,40 +56,48 @@ The tool is built to:
 ---
 
 ## Installation
+
+This fork uses [Poetry](https://python-poetry.org/) to manage dependencies. You'll need it installed.
+
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/deep-research-assistant.git
-   cd deep-research-assistant
+   git clone https://github.com/jamesonev/Deeper-Seeker.git
+   cd deeper-seeker
    ```
 
 2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
+   ```
+   poetry install
    ```
 
 3. Set up environment variables:
-   - Create a `.env` file and add your API keys:
+   We use [poetry's environmental variables](https://python-poetry.org/docs/configuration/#using-environment-variables) to manage secrets.
      ```
-     EXA_API_KEY=your_exa_api_key
-     OPENAI_API_KEY=your_openai_api_key
+     export POETRY_EXA_API_KEY=your_exa_api_key
+     export POETRY_OPENAI_API_KEY=your_openai_api_key
      ```
 
 ---
 
 ## Usage
 1. Run the script:
-   ```bash
-   python main.py
+   ```
+   poetry run python3 main.py
    ```
 
 2. Enter your research query when prompted:
    ```
    Enter your query: Analyze the competitive landscape of the cloud computing industry.
    ```
+3. Enter an optional file name if you want to save the final report that is generated:
+   ```
+   What file should we save this report? my_report.md
+   ```
+   Or hit 'Enter' to skip.
 
-3. View the research process and final report:
+4. View the research process and final report:
    - The tool will display reasoning, plans, search results, and link counts for each iteration.
-   - The final report will be printed in the console.
+   - The final report will be printed in the console and saved in the given file, if provided.
 
 ---
 
@@ -146,17 +154,7 @@ Contributions are welcome! Please follow these steps:
 ## Acknowledgments
 - **Exa AI**: For providing the web search API.
 - **OpenAI**: For powering the AI reasoning and planning capabilities.
----
-
-
-## Future Enhancements
-- Improve reasoning and task planning
-- Enhance the web content extraction with firecrawl.
-- Add support for additional data sources.
-- Implement a web-based interface for easier interaction.
-- Enable export of reports in multiple formats (PDF, Markdown, etc.).
-- Add advanced analytics and visualization capabilities.
-
+- **NimbleFlow-Lab**: For writing the initial version.
 ---
 
 Happy researching! 🚀
