@@ -14,8 +14,8 @@ import pyfiglet
 init(autoreset=True)
 
 
-EXA_API_KEY = os.getenv("EXA_API_KEY")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+EXA_API_KEY = os.getenv("POETRY_EXA_API_KEY")
+OPENAI_API_KEY = os.getenv("POETRY_OPENAI_API_KEY")
 EXA_BASE_URL = "https://api.exa.ai"
 
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
@@ -70,7 +70,7 @@ def generate_research_step(user_query: str, context: List[Dict[str, Any]] = []) 
         })
     
     response = openai_client.chat.completions.create(
-        model="gpt-4-turbo",
+        model="gpt-4o-mini",
         messages=messages,
         temperature=0.3,
         response_format={"type": "json_object"},
